@@ -4,20 +4,20 @@
 
 ### n8n
 
-- [ ] Install n8n
-- [ ] Launch n8n locally
-- [ ] Create admin account
-- [ ] Verify workflows can be created and executed
+- [ 1 ] Install n8n
+- [ 1 ] Launch n8n locally
+- [ 1 ] Create admin account
+- [ 1 ] Verify workflows can be created and executed
 
 ### Google
 
-- [ ] Create MVP Google Sheet
-- [ ] Create Google Cloud project
-- [ ] Enable Google Sheets API
-- [ ] Create service account
-- [ ] Generate credentials
-- [ ] Connect Google Sheets to n8n
-- [ ] Verify row creation from n8n
+- [ 1 ] Create MVP Google Sheet
+- [ 1 ] Create Google Cloud project
+- [ 1 ] Enable Google Sheets API
+- [ 1 ] Create service account
+- [ 1 ] Generate credentials
+- [ 1 ] Connect Google Sheets to n8n
+- [ 1 ] Verify row creation from n8n
 
 ### WhatsApp
 
