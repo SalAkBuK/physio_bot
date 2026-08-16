@@ -12,30 +12,28 @@ Static repository evidence confirms:
 - `01-physiobot-intake.json` is implemented as a manual-trigger, read-only Google Sheets workflow.
 - The new workflow reads `SLOTS`, returns all rows matching `Status = Available`, and does not filter by date or time.
 - Static validation confirms that the new workflow contains no Google Sheets write operation.
+- The user reports that Iteration 1 passed its runtime acceptance tests on the configured n8n instance.
+- `99-whatsapp-credential-smoke-test.json` is implemented with independent outbound and inbound WhatsApp test branches.
 
-This checkout contains no execution history, so live Google Sheets connectivity and successful runtime execution have not been independently reverified here. The original checklist records earlier setup and row-creation success on the configured environment.
+This checkout contains no WhatsApp execution history. WhatsApp connectivity remains unverified until the smoke test runs on the configured n8n instance.
 
-## Current iteration
+## Iteration 1
 
-Iteration 1 — Dynamic Availability
+PASSED
 
-## Implementation
+## Pre-Iteration 2 WhatsApp Connectivity Smoke Test
 
-Complete
+Workflow implemented
 
-## Runtime verification
+Runtime verification pending
 
-Pending on the configured n8n instance
+## Iteration 2
 
-## Next planned iteration
-
-Iteration 2 — WhatsApp Connectivity
-
-Do not begin until Iteration 1 runtime acceptance tests pass.
+NOT STARTED
 
 ## Not implemented yet
 
-- WhatsApp integration, connectivity, and interactive buttons.
+- Iteration 2 WhatsApp response flow and interactive buttons.
 - Dynamic date/time menus.
 - n8n Data Table conversation state.
 - Pending booking intake.

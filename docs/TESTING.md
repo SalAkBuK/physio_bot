@@ -56,18 +56,45 @@ The original checklist left WhatsApp/Meta setup and message sending unverified. 
 
 ### Runtime acceptance criteria
 
-- [ ] Workflow imports successfully into n8n.
-- [ ] Existing Google Sheets credential can be selected/reused.
-- [ ] Manual execution succeeds.
-- [ ] Workflow reads the existing `SLOTS` sheet.
-- [ ] All `Status = Available` rows are returned.
-- [ ] Rows with another status are excluded.
-- [ ] No date is hardcoded.
-- [ ] No time is hardcoded.
-- [ ] No `SLOTS` row is modified.
-- [ ] No booking row is created.
-- [ ] Adding a new `Available` row to `SLOTS` causes it to appear on the next execution.
-- [ ] Changing an `Available` slot to unavailable/booked causes it to disappear from the next execution.
+- [x] Workflow imports successfully into n8n.
+- [x] Existing Google Sheets credential can be selected/reused.
+- [x] Manual execution succeeds.
+- [x] Workflow reads the existing `SLOTS` sheet.
+- [x] All `Status = Available` rows are returned.
+- [x] Rows with another status are excluded.
+- [x] No date is hardcoded.
+- [x] No time is hardcoded.
+- [x] No `SLOTS` row is modified.
+- [x] No booking row is created.
+- [x] Adding a new `Available` row to `SLOTS` causes it to appear on the next execution.
+- [x] Changing an `Available` slot to unavailable/booked causes it to disappear from the next execution.
+
+## Pre-Iteration 2 — WhatsApp Connectivity Smoke Test
+
+### Static validation
+
+- [x] Workflow JSON parses successfully.
+- [x] Outbound and inbound branches are independent.
+- [x] The outbound branch contains only a Manual Trigger and WhatsApp send node.
+- [x] The inbound branch contains only a WhatsApp Trigger and pass-through Edit Fields node.
+- [x] The trigger listens only for message events and retains the raw incoming fields.
+- [x] Credential selections and sender ID are intentionally unresolved.
+- [x] The recipient uses a non-phone placeholder.
+- [x] No Google Sheets, AI, booking, state, or automatic-reply node exists.
+- [x] The Iteration 0 and Iteration 1 workflows remain unchanged.
+
+### Runtime acceptance criteria
+
+- [ ] Smoke-test workflow imports successfully.
+- [ ] Existing `WhatsApp account` credential can be selected.
+- [ ] Meta test sender appears/selects successfully.
+- [ ] Outbound test message reaches personal WhatsApp.
+- [ ] Existing `WhatsApp OAuth account` credential can be selected.
+- [ ] WhatsApp Trigger enters listening/test mode successfully.
+- [ ] Sending `hello` to the Meta test number creates an n8n execution.
+- [ ] Incoming payload contains the real WhatsApp message event.
+- [ ] No Google Sheet data is touched.
+- [ ] No booking data is created.
 
 ## Iteration 2 — WhatsApp Connectivity
 
