@@ -54,9 +54,9 @@ WhatsApp Cloud API
         ↓
  ┌─────────────────┐
  │                 │
-n8n Data Table    Google Sheets
+n8n Data Tables   Google Sheets
 Temporary         ├── Bookings
-Chat State        └── Availability
+Chat State        └── SLOTS / Availability
  │                 │
  └────────┬────────┘
           ↓
@@ -87,7 +87,7 @@ Used for:
 - Sending notifications
 - Running reminder workflows
 
-## n8n Data Table
+## n8n Data Tables
 
 Used only for temporary conversation state.
 
@@ -114,7 +114,7 @@ The spreadsheet contains two main tabs:
 
 ```text
 Bookings
-Availability
+SLOTS
 ```
 
 No custom administrative dashboard will be built.
@@ -301,7 +301,7 @@ It does not assign the provider.
 
 # 11. Available Date Selection
 
-Instead of asking the patient to manually enter a preferred date, n8n reads available future appointments from the Google Sheets `Availability` tab.
+Instead of asking the patient to manually enter a preferred date, n8n reads available future appointments from the Google Sheets `SLOTS` tab.
 
 Bot:
 
@@ -363,7 +363,7 @@ For the MVP, availability will be maintained manually by the clinic in Google Sh
 
 PhysioBot does not calculate complex staff schedules.
 
-The `Availability` sheet may contain:
+The `SLOTS` sheet may contain:
 
 | Date | Time | Appointment Type | Provider Group | Available |
 |---|---|---|---|---|
@@ -865,7 +865,7 @@ Appointment Type
         ↓
 Provider Preference
         ↓
-Read Availability Sheet
+Read SLOTS Sheet
         ↓
 Show Available Dates
         ↓
@@ -1275,7 +1275,7 @@ Google Sheets contains:
 
 ```text
 Bookings
-Availability
+SLOTS
 ```
 
 Build only three primary n8n workflows:
@@ -1310,7 +1310,7 @@ Build only three primary n8n workflows:
 
 ## Phase 3 — Availability
 
-- Create `Availability` Google Sheet
+- Use the existing `SLOTS` Google Sheet
 - Read available dates
 - Display WhatsApp date menu
 - Read available times

@@ -1,0 +1,92 @@
+{
+  "name": "01 - PhysioBot Intake",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "180018c4-acde-4b39-9a1c-94998866ca73",
+      "name": "Manual Trigger"
+    },
+    {
+      "parameters": {
+        "resource": "sheet",
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "1I0lk7UVaMkmySVzb8rmRQG_zoeM0emb0Nx5ViZXPxDc",
+          "mode": "list",
+          "cachedResultName": "Physio Appointment",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1I0lk7UVaMkmySVzb8rmRQG_zoeM0emb0Nx5ViZXPxDc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1064219592,
+          "mode": "list",
+          "cachedResultName": "SLOTS",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1I0lk7UVaMkmySVzb8rmRQG_zoeM0emb0Nx5ViZXPxDc/edit#gid=1064219592"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Status",
+              "lookupValue": "Available"
+            }
+          ]
+        },
+        "options": {
+          "returnFirstMatch": false
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        240,
+        0
+      ],
+      "id": "1eed58bd-4f38-4470-a696-6c5a365448d5",
+      "name": "Get Available Slots",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "vj9HHEb87WqMD9ZL",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Available Slots",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Available Slots": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "66cff301-8ee5-4105-9960-c5e89d99ff65",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "nodeGroups": [],
+  "tags": []
+}

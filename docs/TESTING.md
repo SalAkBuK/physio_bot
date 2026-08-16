@@ -1,218 +1,179 @@
-# PhysioBot MVP Build Checklist
+# PhysioBot Testing
 
-## Phase 0 – Environment Setup
+This file separates implementation work from pass/fail acceptance criteria. A checked item must be supported by repository evidence or a recorded execution on the configured n8n machine.
 
-### n8n
+## Historical setup record
 
-- [ 1 ] Install n8n
-- [ 1 ] Launch n8n locally
-- [ 1 ] Create admin account
-- [ 1 ] Verify workflows can be created and executed
+The original build checklist recorded the following as completed on the separate working environment. These are historical claims, not runtime verification from this checkout:
 
-### Google
+- n8n installed, launched, and able to create and execute workflows.
+- MVP Google Sheet and Google Cloud project created.
+- Google Sheets API enabled and credentials connected to n8n.
+- A row was created from n8n.
 
-- [ 1 ] Create MVP Google Sheet
-- [ 1 ] Create Google Cloud project
-- [ 1 ] Enable Google Sheets API
-- [ 1 ] Create service account
-- [ 1 ] Generate credentials
-- [ 1 ] Connect Google Sheets to n8n
-- [ 1 ] Verify row creation from n8n
+The original checklist left WhatsApp/Meta setup and message sending unverified. Credentials, tokens, and live account access are intentionally outside this repository.
 
-### WhatsApp
+## Iteration 0 — Repository Foundation
 
-- [ ] Create Meta Developer account
-- [ ] Create WhatsApp Cloud API app
-- [ ] Obtain test phone number
-- [ ] Obtain access token
-- [ ] Verify ability to send test messages
+### Implementation tasks
 
----
+- [x] Inventory all existing project files and Git history.
+- [x] Preserve the Google Sheets POC as a historical workflow.
+- [x] Move the main specification to `docs/PROJECT_CONTEXT.md`.
+- [x] Integrate the historical checklist into iteration-based testing.
+- [x] Add repository and n8n contributor guidance.
+- [x] Document current and planned iterations.
 
-# Phase 1 – Booking Intake MVP
+### Acceptance criteria
 
-Goal:
+- [x] Repository has the documented Iteration 0 scaffold.
+- [x] The POC workflow business logic is unchanged.
+- [x] Every committed workflow JSON file parses successfully.
+- [x] No empty future workflow placeholders exist.
+- [x] No obvious committed secret value is detected by the Iteration 0 scan.
+- [x] Iteration 1 functionality was not implemented during Iteration 0.
 
-Patient booking request appears automatically in Google Sheets.
+## Iteration 1 — Dynamic Availability
 
-## Sheet Design
+### Implementation tasks
 
-- [ ] Create appointment sheet
-- [ ] Add Appointment ID column
-- [ ] Add Status column
-- [ ] Add Date column
-- [ ] Add Time column
-- [ ] Add Patient Name column
-- [ ] Add Phone column
-- [ ] Add Gender column
-- [ ] Add Appointment Type column
-- [ ] Add Provider Preference column
-- [ ] Add Service Type column
-- [ ] Add Address column
-- [ ] Add Assigned Provider column
-- [ ] Add Assignment Notes column
-- [ ] Add Created At column
-- [ ] Add Updated At column
+- [x] Create a new manual-trigger workflow for dynamic availability.
+- [x] Read rows from the existing `SLOTS` sheet.
+- [x] Filter rows using `Status = Available`.
+- [x] Keep the workflow read-only.
 
-## Intake Workflow
+### Static validation
 
-- [ ] Create workflow
-- [ ] Accept booking data
-- [ ] Validate required fields
-- [ ] Generate Appointment ID
-- [ ] Set Status = Pending
-- [ ] Add Created At timestamp
-- [ ] Add Updated At timestamp
-- [ ] Append booking to Google Sheet
-- [ ] Handle Google Sheet failure
-- [ ] Log workflow execution
+- [x] Workflow JSON parses successfully.
+- [x] Manual Trigger connects directly to Get Available Slots.
+- [x] The Google Sheets operation is explicitly `read`.
+- [x] The only filter is `Status = Available`.
+- [x] The read operation is configured to return all matching rows.
+- [x] No hardcoded appointment date or time filter exists.
+- [x] No Google Sheets write operation exists.
+- [x] The historical POC remains byte-for-byte unchanged.
+- [x] No WhatsApp, conversation-state, or booking nodes exist.
 
-## Confirmation
+### Runtime acceptance criteria
 
-- [ ] Send booking received confirmation
-- [ ] Test successful booking flow
-- [ ] Test invalid booking flow
+- [ ] Workflow imports successfully into n8n.
+- [ ] Existing Google Sheets credential can be selected/reused.
+- [ ] Manual execution succeeds.
+- [ ] Workflow reads the existing `SLOTS` sheet.
+- [ ] All `Status = Available` rows are returned.
+- [ ] Rows with another status are excluded.
+- [ ] No date is hardcoded.
+- [ ] No time is hardcoded.
+- [ ] No `SLOTS` row is modified.
+- [ ] No booking row is created.
+- [ ] Adding a new `Available` row to `SLOTS` causes it to appear on the next execution.
+- [ ] Changing an `Available` slot to unavailable/booked causes it to disappear from the next execution.
 
-### Phase 1 Complete When
+## Iteration 2 — WhatsApp Connectivity
 
-- [ ] Booking request reaches Google Sheet
-- [ ] Status is Pending
-- [ ] Confirmation message is sent
+### Implementation tasks
 
----
+- [ ] Configure the WhatsApp webhook/trigger in the working n8n instance.
+- [ ] Receive an incoming patient message.
+- [ ] Send a response with initial `Book Appointment` interactive behavior.
 
-# Phase 2 – WhatsApp Conversation Flow
+### Acceptance criteria
 
-Goal:
+- [ ] A test WhatsApp message reaches n8n.
+- [ ] PhysioBot responds to the same test patient.
+- [ ] The initial booking action is presented interactively.
+- [ ] No appointment is automatically confirmed or assigned.
 
-Collect booking information through WhatsApp.
+## Iteration 3 — Dynamic Date and Time Menus
 
-## Conversation Design
+### Implementation tasks
 
-- [ ] Define greeting message
-- [ ] Define booking start message
-- [ ] Define name collection step
-- [ ] Define gender collection step
-- [ ] Define appointment type step
-- [ ] Define date collection step
-- [ ] Define time collection step
-- [ ] Define provider preference step
-- [ ] Define service type step
-- [ ] Define address step
-- [ ] Define notes step
-- [ ] Define booking summary message
+- [ ] Read requestable dates and times from `SLOTS`.
+- [ ] Build interactive date and time menus.
 
-## Workflow
+### Acceptance criteria
 
-- [ ] Connect WhatsApp webhook
-- [ ] Receive incoming messages
-- [ ] Store conversation state
-- [ ] Collect all required fields
-- [ ] Submit completed booking
-- [ ] Create Pending booking
-- [ ] Send booking received confirmation
+- [ ] Only dates with available slots are displayed.
+- [ ] Selecting a date displays only available times for that date.
+- [ ] Changing `SLOTS` changes the menus without editing workflow data.
+- [ ] Selecting a slot does not modify it or confirm an appointment.
 
-### Phase 2 Complete When
+## Iteration 4 — Conversation State
 
-- [ ] Patient can complete booking entirely through WhatsApp
+### Implementation tasks
 
----
+- [ ] Add temporary state in n8n Data Tables.
+- [ ] Collect name, appointment type, provider preference, date, time, and reason.
+- [ ] Collect an address only for a home visit.
+- [ ] Add booking review and restart behavior.
 
-# Phase 3 – Review & Provider Assignment
+### Acceptance criteria
 
-Goal:
+- [ ] A patient can progress through every required prompt.
+- [ ] State resumes at the correct step for the same patient.
+- [ ] Clinic visits skip the address prompt.
+- [ ] Provider preference does not assign a provider.
+- [ ] Invalid or expired state can restart safely.
 
-Allow Dr. Quratulain to manage requests.
+## Iteration 5 — Pending Booking
 
-## Assignment Workflow
+### Implementation tasks
 
-- [ ] Define review process
-- [ ] Define approval process
-- [ ] Define rejection process
-- [ ] Define reschedule process
-- [ ] Define provider assignment process
+- [ ] Validate required booking fields.
+- [ ] Generate a unique appointment ID and timestamps.
+- [ ] Append a booking row to Google Sheets with `Status = Pending`.
+- [ ] Clear temporary state after a successful write.
+- [ ] Make Google Sheets failures visible in n8n.
 
-## Google Sheet Updates
+### Acceptance criteria
 
-- [ ] Update Assigned Provider
-- [ ] Update Assignment Notes
-- [ ] Update Status
-- [ ] Update Updated At timestamp
+- [ ] One submitted request creates one booking row.
+- [ ] The booking status is `Pending`.
+- [ ] The acknowledgement says the appointment is not confirmed yet.
+- [ ] The requested slot is not marked booked or unavailable.
+- [ ] Duplicate webhook processing does not intentionally create duplicate bookings.
+- [ ] A failed sheet write is visible and does not report success to the patient.
 
-## Notifications
+## Iteration 6 — Clinic Decision and Notifications
 
-- [ ] Send confirmation notification
-- [ ] Send rejection notification
-- [ ] Send reschedule notification
-- [ ] Send provider assignment notification
+### Implementation tasks
 
-### Phase 3 Complete When
+- [ ] Detect relevant booking updates.
+- [ ] Support clinic-entered confirmed date/time, assigned provider, notes, and status.
+- [ ] Send confirmation, rejection, appointment-update, and provider-assignment notices.
+- [ ] Mark the relevant slot unavailable/booked when clinic confirmation requires it.
+- [ ] Record notification/update timestamps or flags needed for duplicate protection.
 
-- [ ] Provider assignment works
-- [ ] Status updates work
-- [ ] Notifications are delivered
+### Acceptance criteria
 
----
+- [ ] Only a clinic-set `Confirmed` status triggers confirmation.
+- [ ] Provider assignment comes only from the clinic-maintained sheet.
+- [ ] `Rejected` notifies the patient without confirming the request.
+- [ ] A changed confirmed appointment remains `Confirmed` and sends an update.
+- [ ] The relevant slot changes only during explicit clinic confirmation logic.
+- [ ] Notification failures are visible in n8n.
 
-# Phase 4 – Automated Reminders
+## Iteration 7 — Appointment Reminders
 
-Goal:
+### Implementation tasks
 
-Reduce missed appointments.
+- [ ] Identify upcoming confirmed appointments.
+- [ ] Add approximately 24-hour and 2-hour reminder paths.
+- [ ] Add duplicate-send flags and failure visibility.
 
-## Reminder Workflow
+### Acceptance criteria
 
-- [ ] Identify upcoming appointments
-- [ ] Send 24-hour reminder
-- [ ] Send 2-hour reminder
-- [ ] Prevent duplicate reminders
-- [ ] Retry failed sends
+- [ ] Only `Confirmed` appointments receive reminders.
+- [ ] The 24-hour reminder sends once in its configured window.
+- [ ] The 2-hour reminder sends once in its configured window.
+- [ ] Sent flags prevent duplicate reminders.
+- [ ] Failed sends remain visible for recovery or retry.
 
-## Testing
+## End-to-end MVP acceptance
 
-- [ ] Test 24-hour reminder
-- [ ] Test 2-hour reminder
-- [ ] Test failed message handling
-
-### Phase 4 Complete When
-
-- [ ] Reminder automation is reliable
-
----
-
-# Phase 5 – Hardening
-
-Goal:
-
-Make MVP usable in a real clinic.
-
-## Reliability
-
-- [ ] Add retry handling
-- [ ] Add workflow error logging
-- [ ] Add Google API failure handling
-- [ ] Add WhatsApp API failure handling
-
-## Audit Trail
-
-- [ ] Log booking creation
-- [ ] Log assignment
-- [ ] Log rejection
-- [ ] Log reschedule
-- [ ] Log notification failures
-
-## Documentation
-
-- [ ] Update PROJECT\_CONTEXT.md
-- [ ] Document workflow architecture
-- [ ] Document setup process
-- [ ] Document recovery procedures
-
-### MVP Launch Ready When
-
-- [ ] Intake automation works
-- [ ] Google Sheet sync works
-- [ ] Assignment workflow works
-- [ ] Notifications work
-- [ ] Reminders work
-- [ ] End-to-end booking flow tested
+- [ ] Patient completes intake through WhatsApp.
+- [ ] Available date/time choices come from `SLOTS`.
+- [ ] Google Sheets receives a `Pending` request.
+- [ ] Clinic review, assignment, confirmation, rejection, and updates work.
+- [ ] Patient and provider notifications are delivered as applicable.
+- [ ] Reminder automation passes both timing tests without duplicates.
